@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fastapi-to-openapi"
-version = "0.1.2"
+version = "0.2.0"
 description = "generate openapi file from fastAPI"
 license = "MIT"
 authors = ["Sion908 <sionn908@gmail.com>"]

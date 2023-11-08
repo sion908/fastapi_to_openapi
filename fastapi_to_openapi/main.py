@@ -2,6 +2,8 @@ import json
 import yaml
 from importlib import import_module
 import click
+import sys
+sys.append()
 
 
 @click.command()
@@ -10,8 +12,18 @@ import click
 @click.option("-o","--output_file", default="openapi.default", help="output file name")
 @click.option("-t","--file_type", default='yaml', type=click.Choice(['yaml', 'json'], case_sensitive=False), help="output file type.  yaml or json")
 def cli(input_file,func, output_file, file_type):
-    app = getattr(import_module(input_file.replace("/",".")),func)
-    
+
+    try:
+        module = import_module(input_file.replace("/","."))
+        app = getattr(module,func)
+    except (ModuleNotFoundError, AttributeError):
+        if ModuleNotFoundError:
+            print(ModuleNotFoundError.msg)
+            return None
+        elif AttributeError:
+            print(AttributeError.msg)
+            return None
+
     d = app.openapi()
     # YAMLをファイルに保存
     if output_file.split(".")[-1]=="default":
